@@ -1,8 +1,18 @@
+// Author: Nick Kolesar
+// Class: IT483
+// Date: 9/16/2026
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #define MAX_PROCESSES 4
+
+// Extra definitions and a constant for error output
+const char* VALID_POLICIES[] = {"FCFS", "SJF", "RR"};
+#define NUM_VALID_POLICIES 3
+#define GREEN "\033[0;32m"
+#define BLUE  "\033[0;34m"
+#define RESET "\033[0m"
 
 typedef struct {
     int pid;
@@ -39,16 +49,66 @@ void simulate_scheduler(const char* policy) {
     while (completed < MAX_PROCESSES) {
         int selected_idx = -1;
 
-        /* 
+        /*
          * STUDENT TASK: Implement the scheduling selection logic here.
          * Find a process that has arrived (proc[i].arrival_time <= current_time)
          * and is not yet completed (!proc[i].is_completed).
-         * 
+         *
          * - If policy is "FCFS": Select the arrived process with the smallest arrival_time.
-         * - If policy is "SJF": Select the arrived process with the shortest remaining_time.
+         * - If policy is "SJF":  Select the arrived process with the shortest remaining_time.
+         * - If policy is "RR":   Each process takes equal amount of time determined by a time quant.
          */
-        
+
         // --- STUDENT CODE HERE ---
+
+        if (policy == "FCFS")
+        {
+            int first_arrived = -1; // -1 means no process
+            for (int i = 0; i < MAX_PROCESSES; i++)
+            {
+                // skip check if the process hasn't arrived yet
+                if (current_time < proc[i].arrival_time || proc[i].is_completed)
+                    continue;
+                // nobody is scheduled yet, so job i is candidate
+                if (first_arrived == -1)
+                    first_arrived = i;
+                else if (proc[first_arrived].arrival_time > proc[i].arrival_time)
+                    first_arrived = i;
+            }
+
+            selected_idx = first_arrived;
+        }
+        else if (policy == "SJF")
+        {
+            int shortest_job = -1; // -1 means no process
+            for (int i = 0; i < MAX_PROCESSES; i++)
+            {
+                // skip check if the process hasn't arrived yet
+                if (current_time < proc[i].arrival_time || proc[i].is_completed)
+                    continue;
+                // nobody is scheduled yet, so job i is candidate
+                if (shortest_job == -1)
+                    shortest_job = i;
+                else if (proc[shortest_job].remaining_time > proc[i].remaining_time)
+                    shortest_job = i;
+            }
+
+            selected_idx = shortest_job;
+        }
+        else if (policy == "RR")
+        {
+
+        }
+        else
+        {
+            printf("Invalid policy provided: %s\n", policy);
+            printf("Allowed Policies:\n");
+            for (int i = 0; i < NUM_VALID_POLICIES; i++)
+            {
+                printf("\t%s%s%s\n",GREEN, VALID_POLICIES[i], RESET);
+            }
+            exit(1);
+        }
 
         // -------------------------
 
@@ -89,6 +149,6 @@ void simulate_scheduler(const char* policy) {
 int main() {
     simulate_scheduler("FCFS");
     // Once implemented, students can uncomment this to compare:
-    // simulate_scheduler("SJF");
+    simulate_scheduler("SJF");
     return 0;
 }
