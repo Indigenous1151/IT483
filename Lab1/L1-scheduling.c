@@ -4,12 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string>
 
 #define MAX_PROCESSES 4
 
 // Extra definitions and a constant for error output
 const char* VALID_POLICIES[] = {"FCFS", "SJF", "RR"};
 #define NUM_VALID_POLICIES 3
+#define TIME_QUANTUM 4
 #define GREEN "\033[0;32m"
 #define BLUE  "\033[0;34m"
 #define RESET "\033[0m"
@@ -26,6 +28,17 @@ typedef struct {
     bool is_completed;
 } Process;
 
+typedef struct {
+    int pid;
+    Node* next;
+} Node;
+
+typedef struct {
+    Node* front;
+    Node* back;
+    int size;
+} ReadyQueue;
+
 void init_processes(Process proc[]) {
     // Process 1: Heavy AI Inference
     proc[0] = (Process){1, 0, 10, 10, false, 0, 0, 0, false};
@@ -37,10 +50,56 @@ void init_processes(Process proc[]) {
     proc[3] = (Process){4, 3, 8, 8, false, 0, 0, 0, false};
 }
 
+void push(ReadyQueue *self, int value) {
+    // allocate new node for list
+    Node *new_node = malloc(sizeof(Node));
+    new_node->pid = value;
+    new_node->next = NULL;
+
+    if (self->front == NULL && self->back == NULL)
+    {
+        self->front = new_node;
+        self->back = new_node;
+
+        self->size = 1;
+    }
+    else {
+        // attach new node to the back of the list
+        self->back->next = new_node;
+        // move the back pointer to the new back of the list
+        self->back = self->back->next;
+    }
+}
+
+int pop(ReadyQueue *self) {
+    if (self->front != NULL) {
+        Node* del_node = self->front;
+
+        // move front to next code in queue
+        self->front = self->front->next;
+
+        // reduce the size of the queue by 1
+        self->size -= 1;
+
+        // delete old front node
+        free(del_node);
+        del_node = NULL;
+    }
+    // pid cannot be negative, so -1 shows error
+    else {
+        return -1;
+    }
+}
+
+// returns size of self or -1 if self is NULL
+int size(ReadyQueue *self) {
+    return (self != NULL) ? self->size : -1;
+}
+
 void simulate_scheduler(const char* policy) {
     Process proc[MAX_PROCESSES];
     init_processes(proc);
-
+    ReadyQueue ready_queue = {NULL, NULL, 0}; // custom linked list
     int current_time = 0;
     int completed = 0;
 
@@ -61,7 +120,7 @@ void simulate_scheduler(const char* policy) {
 
         // --- STUDENT CODE HERE ---
 
-        if (policy == "FCFS")
+        if (strcmp(policy, "FCFS") == 0)
         {
             int first_arrived = -1; // -1 means no process
             for (int i = 0; i < MAX_PROCESSES; i++)
@@ -78,7 +137,7 @@ void simulate_scheduler(const char* policy) {
 
             selected_idx = first_arrived;
         }
-        else if (policy == "SJF")
+        else if (strcmp(policy, "SJF") == 0)
         {
             int shortest_job = -1; // -1 means no process
             for (int i = 0; i < MAX_PROCESSES; i++)
@@ -97,6 +156,15 @@ void simulate_scheduler(const char* policy) {
         }
         else if (policy == "RR")
         {
+            int rr_job = -1; // start with nobody
+
+            for (int i = 0; i < MAX_PROCESSES; i++)
+            {
+                // skip jobs that haven't arrived yet or are complete
+                if (current_time < proc[i].arrival_time || proc[i].is_completed)
+                    continue;
+                
+            }
 
         }
         else
@@ -120,7 +188,7 @@ void simulate_scheduler(const char* policy) {
 
         // Execute the chosen process to completion (Non-preemptive simulation)
         Process* p = &proc[selected_idx];
-        printf("[Time %2d]: Running P%d (%s) for %d units.\n", 
+        printf("[Time %2d]: Running P%d (%s) for %d units.\n",
                current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", p->remaining_time);
 
         current_time += p->remaining_time;
