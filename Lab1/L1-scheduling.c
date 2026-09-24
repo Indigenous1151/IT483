@@ -29,12 +29,14 @@ typedef struct {
     bool is_completed;
 } Process;
 
+// Linked list node
 typedef struct Node {
     int pid;
-    int time_added;
+    int time_added; // need to track waiting time
     struct Node* next;
 } Node;
 
+// Linked list queue
 typedef struct {
     Node* front;
     Node* back;
@@ -53,32 +55,28 @@ void init_processes(Process proc[]) {
 }
 
 void push(ReadyQueue *self, int value, int time) {
-    // printf("DEBUG: PUSHING %d\n", value);
     // allocate new node for list
     Node *new_node = malloc(sizeof(Node));
     new_node->pid = value;
     new_node->time_added = time;
     new_node->next = NULL;
 
-    if (self->front == NULL && self->back == NULL)
+    if (self->size == 0)
     {
         self->front = new_node;
         self->back = new_node;
-
-        self->size = 1;
     }
     else {
         // attach new node to the back of the list
         self->back->next = new_node;
         // move the back pointer to the new back of the list
         self->back = self->back->next;
-        // update the size of the queue
-        self->size += 1;
     }
+    // update the size of the queue
+    self->size += 1;
 }
 
 Node *pop(ReadyQueue *self) {
-    // printf("DEBUG popping\n");
     if (self->front != NULL) {
         Node* front_node = self->front;
 
@@ -102,6 +100,7 @@ Node *pop(ReadyQueue *self) {
     }
 }
 
+// implemented just in case
 Node* peek (ReadyQueue *self) {
     return (self != NULL) ? self->front : NULL;
 }
@@ -111,6 +110,7 @@ int size(ReadyQueue *self) {
     return (self != NULL) ? self->size : -1;
 }
 
+// iterate through the queue, and return true if target node is found
 bool find(ReadyQueue *self, int target) {
     Node *iter = self->front;
 
@@ -230,7 +230,6 @@ void simulate_scheduler(const char* policy) {
 
             selected_idx = rr_job;
             previous_idx = selected_idx;
-            // printf("DEBUG: selected_idx = %d\n", selected_idx);
         }
         else
         {
@@ -252,13 +251,15 @@ void simulate_scheduler(const char* policy) {
         }
 
         Process* p = &proc[selected_idx];
-        int burst = fmin(p->remaining_time, TIME_QUANTUM);
+
         if (strcmp(policy, "RR") == 0) {
+            int burst = fmin(p->remaining_time, TIME_QUANTUM);
             printf("[Time %2d]: Running P%d (%s) for %d units.\n",
-                    current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference",
-                    burst);
+                    current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", burst);
+            // update the waiting time before updating current time to prevent counting the execution
             p->waiting_time += current_time - rr_pushed_time;
-            printf("DEBUG: waiting time for P%d is %d\n", p->pid, p->waiting_time);
+
+            // update current time based on either quantum or remaining time (whichever is smaller)
             current_time += burst;
             p->remaining_time -= burst;
 
@@ -266,23 +267,21 @@ void simulate_scheduler(const char* policy) {
                 p->is_completed = true;
                 completed++;
 
-                // update metrics
+                // update completion and turnaround times
                 p->completion_time = current_time;
                 p->turnaround_time = current_time - p->arrival_time; // doesn't really matter
             }
-
-            
         }
         else {
             // Execute the chosen process to completion (Non-preemptive simulation)
             printf("[Time %2d]: Running P%d (%s) for %d units.\n",
                    current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", p->remaining_time);
-    
+
             current_time += p->remaining_time;
             p->remaining_time = 0;
             p->is_completed = true;
             completed++;
-    
+
             // Calculate performance metrics
             p->completion_time = current_time;
             p->turnaround_time = p->completion_time - p->arrival_time;
@@ -303,9 +302,8 @@ void simulate_scheduler(const char* policy) {
 }
 
 int main() {
-    // simulate_scheduler("FCFS");
-    // Once implemented, students can uncomment this to compare:
-    // simulate_scheduler("SJF");
+    simulate_scheduler("FCFS");
+    simulate_scheduler("SJF");
     simulate_scheduler("RR");
     return 0;
 }
