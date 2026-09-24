@@ -96,6 +96,16 @@ int size(ReadyQueue *self) {
     return (self != NULL) ? self->size : -1;
 }
 
+bool find(ReadyQueue *self, int target) {
+    Node *iter = self->front;
+
+    while (iter != NULL) {
+        if (iter->pid == target)
+            return true;
+    }
+    return false;
+}
+
 void simulate_scheduler(const char* policy) {
     Process proc[MAX_PROCESSES];
     init_processes(proc);
@@ -163,9 +173,13 @@ void simulate_scheduler(const char* policy) {
                 // skip jobs that haven't arrived yet or are complete
                 if (current_time < proc[i].arrival_time || proc[i].is_completed)
                     continue;
-                
+                // Determine which jobs are or should be queue
+                if (!find(&ready_queue, proc[i].pid))
+                    push(&ready_queue, proc[i].pid);
             }
 
+            // pop node from the queue to decide on the id
+            selected_idx = pop(&ready_queue);
         }
         else
         {
@@ -186,20 +200,40 @@ void simulate_scheduler(const char* policy) {
             continue;
         }
 
-        // Execute the chosen process to completion (Non-preemptive simulation)
         Process* p = &proc[selected_idx];
-        printf("[Time %2d]: Running P%d (%s) for %d units.\n",
-               current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", p->remaining_time);
+        int burst = min(p->remaining_time, TIME_QUANTUM);
+        if (strcmp(policy, "RR")) {
+            printf("[Time %2d]: Running P%d (%s) for %d units.\n", 
+                    current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference",
+                    burst);
 
-        current_time += p->remaining_time;
-        p->remaining_time = 0;
-        p->is_completed = true;
-        completed++;
+            current_time += burst;
+            p->remaining_time -= burst;
 
-        // Calculate performance metrics
-        p->completion_time = current_time;
-        p->turnaround_time = p->completion_time - p->arrival_time;
-        p->waiting_time = p->turnaround_time - p->burst_time;
+            if (p->remaining_time == 0) {
+                p->is_completed = true;
+                completed++;
+
+                // update metrics
+                p->completion_time = current_time;
+                p->turnaround_time = current_time - p->arrival_time; // doesn't really matter
+            }
+        }
+        else {
+            // Execute the chosen process to completion (Non-preemptive simulation)
+            printf("[Time %2d]: Running P%d (%s) for %d units.\n",
+                   current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", p->remaining_time);
+    
+            current_time += p->remaining_time;
+            p->remaining_time = 0;
+            p->is_completed = true;
+            completed++;
+    
+            // Calculate performance metrics
+            p->completion_time = current_time;
+            p->turnaround_time = p->completion_time - p->arrival_time;
+            p->waiting_time = p->turnaround_time - p->burst_time;
+        }
     }
 
     // Print out aggregate evaluation statistics
