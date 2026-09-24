@@ -246,7 +246,8 @@ void simulate_scheduler(const char* policy) {
             printf("[Time %2d]: Running P%d (%s) for %d units.\n",
                     current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference",
                     burst);
-
+            p->waiting_time += current_time - rr_pushed_time;
+            printf("DEBUG: waiting time for P%d is %d\n", p->pid, p->waiting_time);
             current_time += burst;
             p->remaining_time -= burst;
 
@@ -259,7 +260,7 @@ void simulate_scheduler(const char* policy) {
                 p->turnaround_time = current_time - p->arrival_time; // doesn't really matter
             }
 
-            p->waiting_time += current_time - rr_pushed_time;
+            
         }
         else {
             // Execute the chosen process to completion (Non-preemptive simulation)
