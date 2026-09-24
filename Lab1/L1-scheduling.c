@@ -68,6 +68,8 @@ void push(ReadyQueue *self, int value) {
         self->back->next = new_node;
         // move the back pointer to the new back of the list
         self->back = self->back->next;
+        // update the size of the queue
+        self->size += 1;
     }
 }
 
@@ -81,6 +83,11 @@ int pop(ReadyQueue *self) {
         // reduce the size of the queue by 1
         self->size -= 1;
 
+        // empty queue after pop, so update back to be null
+        if (self->size == 0) {
+            self->back = NULL;
+        }
+
         // delete old front node
         free(del_node);
         del_node = NULL;
@@ -89,6 +96,10 @@ int pop(ReadyQueue *self) {
     else {
         return -1;
     }
+}
+
+Node* peek (ReadyQueue *self) {
+    return (self != NULL) ? self->front : NULL;
 }
 
 // returns size of self or -1 if self is NULL
