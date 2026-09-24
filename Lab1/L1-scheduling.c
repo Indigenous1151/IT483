@@ -128,6 +128,7 @@ void simulate_scheduler(const char* policy) {
     ReadyQueue ready_queue = {NULL, NULL, 0}; // custom linked list
     int current_time = 0;
     int completed = 0;
+    bool rr_seen[MAX_PROCESSES] = {false};
 
     printf("\n--- Running Scheduler Simulation: %s ---\n", policy);
 
@@ -186,16 +187,26 @@ void simulate_scheduler(const char* policy) {
         {
             int rr_job = -1; // start with nobody
 
-            for (int i = 0; i < MAX_PROCESSES; i++)
+            for (int count = 0; count < MAX_PROCESSES; count++)
             {
-                // printf("DEBUG: in for i=%d\n", i);
-                // skip jobs that haven't arrived yet or are complete
-                if (current_time < proc[i].arrival_time || proc[i].is_completed || i == previous_idx)
-                    continue;
-                // Determine which jobs are or should be queue
-                if (!find(&ready_queue, proc[i].pid)) {
-                    push(&ready_queue, proc[i].pid, proc[i].arrival_time);
+                int next_idx = -1;
+
+                // run through each process and find min unseen arrival time to push
+                for (int i = 0; i < MAX_PROCESSES; i++)
+                {
+                    if (rr_seen[i] || proc[i].is_completed || i == previous_idx || current_time < proc[i].arrival_time)
+                        continue;
+
+                    if (next_idx == -1 || proc[i].arrival_time < proc[next_idx].arrival_time)
+                        next_idx = i;
                 }
+
+                if (next_idx == -1)
+                    break;
+
+                push(&ready_queue, proc[next_idx].pid, proc[next_idx].arrival_time);
+
+                rr_seen[next_idx] = true;
             }
 
             // readd the previous job if there was one
