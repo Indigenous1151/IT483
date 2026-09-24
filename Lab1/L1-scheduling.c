@@ -146,6 +146,8 @@ void simulate_scheduler(const char* policy) {
 
         // --- STUDENT CODE HERE ---
         int rr_pushed_time = -1;
+        static int previous_idx = -1;
+
         if (strcmp(policy, "FCFS") == 0)
         {
             int first_arrived = -1; // -1 means no process
@@ -188,12 +190,17 @@ void simulate_scheduler(const char* policy) {
             {
                 // printf("DEBUG: in for i=%d\n", i);
                 // skip jobs that haven't arrived yet or are complete
-                if (current_time < proc[i].arrival_time || proc[i].is_completed)
+                if (current_time < proc[i].arrival_time || proc[i].is_completed || i == previous_idx)
                     continue;
                 // Determine which jobs are or should be queue
-                if (!find(&ready_queue, proc[i].pid))
-                    push(&ready_queue, proc[i].pid, current_time);
+                if (!find(&ready_queue, proc[i].pid)) {
+                    push(&ready_queue, proc[i].pid, proc[i].arrival_time);
+                }
             }
+
+            // readd the previous job if there was one
+            if (previous_idx != -1 && !proc[previous_idx].is_completed)
+                push(&ready_queue, proc[previous_idx].pid, current_time);
 
             // pop node from the queue to decide on the id
             Node *popped_node = pop(&ready_queue);
@@ -203,7 +210,7 @@ void simulate_scheduler(const char* policy) {
             else {
                 // store when it was pushed to the queue and its pid
                 rr_pushed_time = popped_node->time_added;
-                rr_job = popped_node->pid;
+                rr_job = popped_node->pid - 1;
 
                 // delete the node
                 free(popped_node);
@@ -211,6 +218,7 @@ void simulate_scheduler(const char* policy) {
             }
 
             selected_idx = rr_job;
+            previous_idx = selected_idx;
             // printf("DEBUG: selected_idx = %d\n", selected_idx);
         }
         else
