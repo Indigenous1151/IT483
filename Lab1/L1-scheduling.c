@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string>
+#include <string.h>
+#include <math.h>
 
 #define MAX_PROCESSES 4
 
@@ -28,9 +29,10 @@ typedef struct {
     bool is_completed;
 } Process;
 
-typedef struct {
+typedef struct Node {
     int pid;
-    Node* next;
+    int time_added;
+    struct Node* next;
 } Node;
 
 typedef struct {
@@ -50,10 +52,12 @@ void init_processes(Process proc[]) {
     proc[3] = (Process){4, 3, 8, 8, false, 0, 0, 0, false};
 }
 
-void push(ReadyQueue *self, int value) {
+void push(ReadyQueue *self, int value, int time) {
+    // printf("DEBUG: PUSHING %d\n", value);
     // allocate new node for list
     Node *new_node = malloc(sizeof(Node));
     new_node->pid = value;
+    new_node->time_added = time;
     new_node->next = NULL;
 
     if (self->front == NULL && self->back == NULL)
@@ -73,9 +77,10 @@ void push(ReadyQueue *self, int value) {
     }
 }
 
-int pop(ReadyQueue *self) {
+Node *pop(ReadyQueue *self) {
+    // printf("DEBUG popping\n");
     if (self->front != NULL) {
-        Node* del_node = self->front;
+        Node* front_node = self->front;
 
         // move front to next code in queue
         self->front = self->front->next;
@@ -88,13 +93,12 @@ int pop(ReadyQueue *self) {
             self->back = NULL;
         }
 
-        // delete old front node
-        free(del_node);
-        del_node = NULL;
+        // return the front node
+        return front_node;
     }
     // pid cannot be negative, so -1 shows error
     else {
-        return -1;
+        return NULL;
     }
 }
 
@@ -113,6 +117,7 @@ bool find(ReadyQueue *self, int target) {
     while (iter != NULL) {
         if (iter->pid == target)
             return true;
+        iter = iter->next;
     }
     return false;
 }
@@ -140,7 +145,7 @@ void simulate_scheduler(const char* policy) {
          */
 
         // --- STUDENT CODE HERE ---
-
+        int rr_pushed_time = -1;
         if (strcmp(policy, "FCFS") == 0)
         {
             int first_arrived = -1; // -1 means no process
@@ -175,22 +180,38 @@ void simulate_scheduler(const char* policy) {
 
             selected_idx = shortest_job;
         }
-        else if (policy == "RR")
+        else if (strcmp(policy, "RR") == 0)
         {
             int rr_job = -1; // start with nobody
 
             for (int i = 0; i < MAX_PROCESSES; i++)
             {
+                // printf("DEBUG: in for i=%d\n", i);
                 // skip jobs that haven't arrived yet or are complete
                 if (current_time < proc[i].arrival_time || proc[i].is_completed)
                     continue;
                 // Determine which jobs are or should be queue
                 if (!find(&ready_queue, proc[i].pid))
-                    push(&ready_queue, proc[i].pid);
+                    push(&ready_queue, proc[i].pid, current_time);
             }
 
             // pop node from the queue to decide on the id
-            selected_idx = pop(&ready_queue);
+            Node *popped_node = pop(&ready_queue);
+
+            if (popped_node == NULL)
+                rr_job = -1;
+            else {
+                // store when it was pushed to the queue and its pid
+                rr_pushed_time = popped_node->time_added;
+                rr_job = popped_node->pid;
+
+                // delete the node
+                free(popped_node);
+                popped_node = NULL;
+            }
+
+            selected_idx = rr_job;
+            // printf("DEBUG: selected_idx = %d\n", selected_idx);
         }
         else
         {
@@ -212,9 +233,9 @@ void simulate_scheduler(const char* policy) {
         }
 
         Process* p = &proc[selected_idx];
-        int burst = min(p->remaining_time, TIME_QUANTUM);
-        if (strcmp(policy, "RR")) {
-            printf("[Time %2d]: Running P%d (%s) for %d units.\n", 
+        int burst = fmin(p->remaining_time, TIME_QUANTUM);
+        if (strcmp(policy, "RR") == 0) {
+            printf("[Time %2d]: Running P%d (%s) for %d units.\n",
                     current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference",
                     burst);
 
@@ -229,6 +250,8 @@ void simulate_scheduler(const char* policy) {
                 p->completion_time = current_time;
                 p->turnaround_time = current_time - p->arrival_time; // doesn't really matter
             }
+
+            p->waiting_time += current_time - rr_pushed_time;
         }
         else {
             // Execute the chosen process to completion (Non-preemptive simulation)
@@ -260,8 +283,9 @@ void simulate_scheduler(const char* policy) {
 }
 
 int main() {
-    simulate_scheduler("FCFS");
+    // simulate_scheduler("FCFS");
     // Once implemented, students can uncomment this to compare:
-    simulate_scheduler("SJF");
+    // simulate_scheduler("SJF");
+    simulate_scheduler("RR");
     return 0;
 }
