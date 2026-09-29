@@ -1,6 +1,24 @@
 // Author: Nick Kolesar
 // Class: IT483
 // Date: 9/16/2026
+/**
+ * Analysis
+ *
+ * The Shortest Job First (SJF) policy can potentially experience starvation.
+ * Since there are only 4 processes in this run, that starvation cannot be observed,
+ * but potentially if short jobs are continuously created, a longer I/O Bound or
+ * AI Inference process could be starved since the shorter jobs take priority.
+ *
+ * First Come, First Served (FCFS) does not suffer from the same issue because processes
+ * get their turn in the order they arrive, so eventually every job will reach the "front
+ * of the line" and get executed.
+ *
+ * Round Robin is able to keep real-time tasks responsive next to heavy AI models because
+ * it executes a small time quantum for each process, rotating between all of them one-by-one.
+ * Since each process is only allowed to run for the length of the defined time quantum,
+ * before getting interrupted and moved back into the ready queue, no single process can
+ * hog all of the CPU time.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -12,9 +30,11 @@
 // Extra definitions and a constant for error output
 const char* VALID_POLICIES[] = {"FCFS", "SJF", "RR"};
 #define NUM_VALID_POLICIES 3
-#define TIME_QUANTUM 4
+#define TIME_QUANTUM 2
+#define RED   "\033[0;31m"
 #define GREEN "\033[0;32m"
 #define BLUE  "\033[0;34m"
+#define CYAN  "\033[0;36m"
 #define RESET "\033[0m"
 
 typedef struct {
@@ -54,6 +74,7 @@ void init_processes(Process proc[]) {
     proc[3] = (Process){4, 3, 8, 8, false, 0, 0, 0, false};
 }
 
+// pushing new node with `value` to ready queue at `time`
 void push(ReadyQueue *self, int value, int time) {
     // allocate new node for list
     Node *new_node = malloc(sizeof(Node));
@@ -76,6 +97,7 @@ void push(ReadyQueue *self, int value, int time) {
     self->size += 1;
 }
 
+// Remove and return the front node from the ready queue
 Node *pop(ReadyQueue *self) {
     if (self->front != NULL) {
         Node* front_node = self->front;
@@ -100,8 +122,10 @@ Node *pop(ReadyQueue *self) {
     }
 }
 
-// implemented just in case
-Node* peek (ReadyQueue *self) {
+// I didn't end up using these two functions, but I figured I'd just leave them
+
+// get front node from ready queue without popping
+const Node* peek (ReadyQueue *self) {
     return (self != NULL) ? self->front : NULL;
 }
 
@@ -130,22 +154,11 @@ void simulate_scheduler(const char* policy) {
     int completed = 0;
     bool rr_seen[MAX_PROCESSES] = {false};
 
-    printf("\n--- Running Scheduler Simulation: %s ---\n", policy);
+    printf("\n--- Running Scheduler Simulation: %s%s%s ---\n", RED, policy, RESET);
 
     while (completed < MAX_PROCESSES) {
         int selected_idx = -1;
-
-        /*
-         * STUDENT TASK: Implement the scheduling selection logic here.
-         * Find a process that has arrived (proc[i].arrival_time <= current_time)
-         * and is not yet completed (!proc[i].is_completed).
-         *
-         * - If policy is "FCFS": Select the arrived process with the smallest arrival_time.
-         * - If policy is "SJF":  Select the arrived process with the shortest remaining_time.
-         * - If policy is "RR":   Each process takes equal amount of time determined by a time quant.
-         */
-
-        // --- STUDENT CODE HERE ---
+        // round-robin variables
         int rr_pushed_time = -1;
         static int previous_idx = -1;
 
@@ -251,11 +264,23 @@ void simulate_scheduler(const char* policy) {
         }
 
         Process* p = &proc[selected_idx];
+        
+        // setting up color text vars for output
+        char *process_type;
+        char *process_text_color;
+        if (p->is_io_bound) {
+            process_type = "I/O-Bound";
+            process_text_color = CYAN;
+        }
+        else {
+            process_type = "AI Inference";
+            process_text_color = BLUE;
+        }
 
         if (strcmp(policy, "RR") == 0) {
             int burst = fmin(p->remaining_time, TIME_QUANTUM);
-            printf("[Time %2d]: Running P%d (%s) for %d units.\n",
-                    current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", burst);
+            printf("[Time %2d]: Running P%d (%s%s%s) for %d units.\n",
+                    current_time, p->pid, process_text_color, process_type, RESET, burst);
             // update the waiting time before updating current time to prevent counting the execution
             p->waiting_time += current_time - rr_pushed_time;
 
@@ -274,8 +299,8 @@ void simulate_scheduler(const char* policy) {
         }
         else {
             // Execute the chosen process to completion (Non-preemptive simulation)
-            printf("[Time %2d]: Running P%d (%s) for %d units.\n",
-                   current_time, p->pid, p->is_io_bound ? "I/O-Bound" : "AI Inference", p->remaining_time);
+            printf("[Time %2d]: Running P%d (%s%s%s) for %d units.\n",
+                   current_time, p->pid, process_text_color, process_type, RESET, p->remaining_time);
 
             current_time += p->remaining_time;
             p->remaining_time = 0;
@@ -296,14 +321,15 @@ void simulate_scheduler(const char* policy) {
         total_waiting += proc[i].waiting_time;
     }
 
-    printf("\n>> Evaluation Metrics for %s:\n", policy);
-    printf("   Average Turnaround Time: %.2f time units\n", total_turnaround / MAX_PROCESSES);
-    printf("   Average Waiting Time:    %.2f time units\n", total_waiting / MAX_PROCESSES);
+    printf("\n>> Evaluation Metrics for %s%s%s:\n", RED, policy, RESET);
+    printf("   Average Turnaround Time: %s%.2f%s time units\n", GREEN, total_turnaround / MAX_PROCESSES, RESET);
+    printf("   Average Waiting Time:    %s%.2f%s time units\n", GREEN, total_waiting / MAX_PROCESSES, RESET);
 }
 
 int main() {
-    simulate_scheduler("FCFS");
-    simulate_scheduler("SJF");
-    simulate_scheduler("RR");
+    // simulate with all three p
+    for (int i = 0; i < NUM_VALID_POLICIES; i++) {
+        simulate_scheduler(VALID_POLICIES[i]);
+    }
     return 0;
 }
