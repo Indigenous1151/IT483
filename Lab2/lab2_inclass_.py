@@ -61,16 +61,26 @@ def worker(thread_id, static=False):
     """
 
     print(f"Thread-{thread_id} started.")
+    if USE_STATIC:
+        num_threads_with_extra_row = MATRIX_ROWS % NUM_THREADS
+        num_rows_to_complete = MATRIX_ROWS // NUM_THREADS + (1 if thread_id < num_threads_with_extra_row else 0)
+        # figure out what row worker starts at, accounting for uneven distributions as well
+        cur_row = MATRIX_ROWS // NUM_THREADS * thread_id + (thread_id if thread_id < num_threads_with_extra_row else num_threads_with_extra_row)
+    else:
+        num_rows_to_complete = 0
+        cur_row = 0
 
-    num_rows_to_complete = MATRIX_ROWS // NUM_THREADS + (1 if thread_id < MATRIX_ROWS % NUM_THREADS else 0)
-
-    while static and num_rows_to_complete > 0 or not static and not row_queue.empty():
+    while USE_STATIC and num_rows_to_complete > 0 or not static and not row_queue.empty():
 
         try:
 
             # Non-blocking get in case another thread empties it concurrently
             with output_lock:
-                row_idx = row_queue.get_nowait()
+                if USE_STATIC:
+                    row_idx = cur_row
+                    cur_row += 1
+                else:
+                    row_idx = row_queue.get_nowait()
                 num_rows_to_complete -= 1
 
         except queue.Empty:
