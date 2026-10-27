@@ -1,3 +1,5 @@
+# Author: Nick Kolesar
+
 import threading
 
 import queue
@@ -16,11 +18,13 @@ VECTOR_SIZE = 50
 
 NUM_THREADS = 4
 
+USE_STATIC = True
+
  
 
 # Generate a mock pruned matrix (50% zeros) and an input vector
 
-matrix = [[random.choice([0, random.random()]) for _ in range(VECTOR_SIZE)] for _ in range(MATRIX_ROWS)]
+matrix = [[random.choice([0.0, random.random()]) for _ in range(VECTOR_SIZE)] for _ in range(MATRIX_ROWS)]
 
 vector = [random.random() for _ in range(VECTOR_SIZE)]
 
@@ -29,14 +33,13 @@ output = [0.0] * MATRIX_ROWS
  
 
 # Thread-safe queue to hold row indices for dynamic scheduling
+if USE_STATIC:
+    row_queue = queue.Queue()
 
-row_queue = queue.Queue()
+    for i in range(MATRIX_ROWS):
 
-for i in range(MATRIX_ROWS):
+        row_queue.put(i)
 
-    row_queue.put(i)
-
- 
 
 # Lock to protect printing or shared output modification if needed
 
@@ -101,7 +104,7 @@ threads = []
 
 for t in range(NUM_THREADS):
 
-    thread = threading.Thread(target=worker, args=(t,True))
+    thread = threading.Thread(target=worker, args=(t, USE_STATIC))
 
     threads.append(thread)
 
