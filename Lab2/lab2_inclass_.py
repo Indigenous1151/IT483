@@ -71,7 +71,7 @@ def worker(thread_id, static=False):
         num_rows_to_complete = 0
         cur_row = 0
 
-    while USE_STATIC and num_rows_to_complete > 0 or not USE_STATIC and not row_queue.empty():
+    while USE_STATIC and num_rows_to_complete > 0 or not USE_STATIC and not row_queue.empty(): # type: ignore
 
         try:
 
@@ -81,7 +81,7 @@ def worker(thread_id, static=False):
                     row_idx = cur_row
                     cur_row += 1
                 else:
-                    row_idx = row_queue.get_nowait()
+                    row_idx = row_queue.get_nowait() # type: ignore
                 num_rows_to_complete -= 1
 
         except queue.Empty:
