@@ -33,13 +33,14 @@ output = [0.0] * MATRIX_ROWS
  
 
 # Thread-safe queue to hold row indices for dynamic scheduling
-if USE_STATIC:
+if not USE_STATIC:
     row_queue = queue.Queue()
 
     for i in range(MATRIX_ROWS):
 
         row_queue.put(i)
-
+else:
+    row_queue = None
 
 # Lock to protect printing or shared output modification if needed
 
@@ -70,7 +71,7 @@ def worker(thread_id, static=False):
         num_rows_to_complete = 0
         cur_row = 0
 
-    while USE_STATIC and num_rows_to_complete > 0 or not static and not row_queue.empty():
+    while USE_STATIC and num_rows_to_complete > 0 or not USE_STATIC and not row_queue.empty():
 
         try:
 
@@ -104,7 +105,9 @@ def worker(thread_id, static=False):
 
         output[row_idx] = dot_product
 
-        row_queue.task_done()
+        # row_queue is None for static scheduling
+        if row_queue:
+            row_queue.task_done()
 
  
 
