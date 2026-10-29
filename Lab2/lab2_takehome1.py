@@ -57,40 +57,35 @@ def consumer_storage():
                 head = (head + 1) % BUFFER_SIZE
                 count -= 1
 
-                """
-                STUDENT TASK:
-                1. Monitor the 'simulated_storage_used' variable.
-                2. If storage >= 50, change 'quantization_bits' to 16.
-                3. If storage >= 80, change 'quantization_bits' to 8.
-                4. Quantize the 'raw_sample' based on current bits and simulate
-                writing to disk by incrementing 'simulated_storage_used'
-                (e.g., lower bits consume less storage space).
-                """
-                # --- STUDENT CODE HERE ---
-                # determine the quantization bits
-                if simulated_storage_used >= 80:
-                    quantization_bits = 8
-                elif simulated_storage_used >= 50:
-                    quantization_bits = 16
-                else:
-                    quantization_bits = 32
+                # I moved this notify because the quantization doesn't
+                # actually need to be in the critical section
+                condition.notify()
 
-                # convert to 32 bit float if 32, otherwise make into integer
-                if quantization_bits == 32:
-                    sample = np.float32(raw_sample)
-                else:
-                    scale = 2 ** quantization_bits - 1
-                    sample = max(0, min(scale, round(raw_sample * scale)))
+            # 
 
-                # write the quantized sample to storage.txt
-                file.write(str(sample) + "\n")
-                # maintaining the default concept of 1 being 2 bytes
-                simulated_storage_used += (quantization_bits / 16)
-                print(f"Stored sample. Bits: {quantization_bits}. Storage: {simulated_storage_used}/{MAX_SIMULATED_STORAGE}")
+            # determine the quantization bits
+            if simulated_storage_used >= 80:
+                quantization_bits = 8
+            elif simulated_storage_used >= 50:
+                quantization_bits = 16
+            else:
+                quantization_bits = 32
+
+            # convert to 32 bit float if 32, otherwise make into integer
+            if quantization_bits == 32:
+                sample = np.float32(raw_sample)
+            else:
+                scale = 2 ** quantization_bits - 1
+                sample = max(0, min(scale, round(raw_sample * scale)))
+
+            # write the quantized sample to storage.txt
+            file.write(str(sample) + "\n")
+            # maintaining the default concept of 1 being 2 bytes
+            simulated_storage_used += (quantization_bits / 16)
+            print(f"Stored sample. Bits: {quantization_bits}. Storage: {simulated_storage_used}/{MAX_SIMULATED_STORAGE}")
 
                 # -------------------------
 
-                condition.notify()
 
             time.sleep(0.08)  # Simulate storage I/O delay
 
