@@ -61,7 +61,7 @@ def consumer_storage():
                 # actually need to be in the critical section
                 condition.notify()
 
-            # 
+            # Start handling quanitzation after condition is closed
 
             # determine the quantization bits
             if simulated_storage_used >= 80:
