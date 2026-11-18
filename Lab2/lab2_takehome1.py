@@ -57,16 +57,6 @@ def consumer_storage():
                 head = (head + 1) % BUFFER_SIZE
                 count -= 1
 
-                """
-                STUDENT TASK:
-                1. Monitor the 'simulated_storage_used' variable.
-                2. If storage >= 50, change 'quantization_bits' to 16.
-                3. If storage >= 80, change 'quantization_bits' to 8.
-                4. Quantize the 'raw_sample' based on current bits and simulate
-                writing to disk by incrementing 'simulated_storage_used'
-                (e.g., lower bits consume less storage space).
-                """
-                # --- STUDENT CODE HERE ---
                 # determine the quantization bits
                 if simulated_storage_used >= 80:
                     quantization_bits = 8
