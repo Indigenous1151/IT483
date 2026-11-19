@@ -29,7 +29,11 @@ else:
 
 BUFFER_SIZE = 5
 CHUNK_SIZE  = 10
-MAX_SIMULATED_STORAGE = 100  # Simulated disk blocks
+MAX_STORAGE_BYTES = 1024 # storing 1KB of data
+
+def storage_percent(used, max_bytes):
+    """This function calculates the percentage of storage used"""
+    return (used / max_bytes) * 100 if max_bytes > 0 else 0
 
 pending_chunks = []
 time_count = time.perf_counter_ns()
@@ -130,7 +134,7 @@ class Stats:
             f"Total Sync Time (ms):         {self.total_sync_ms:.3f}\n"
             f"Average Sync Time (ms):       {self.avg_sync_ms:.3f}\n"
             f"Recording Duration (s):       {self.recording_seconds:.3f}\n"
-            f"Chunks per Second:            {self.chunks_per_second:.3f}"
+            f"Chunks per Second:            {self.chunks_per_second:.3f}\n"
             f"File Size (bytes):            {self.file_size_bytes}\n"
         )
 
@@ -199,18 +203,18 @@ def producer_mic():
 def consumer_storage():
     global simulated_storage_used, quantization_bits, time_count
     with open(FILENAME, "wb") as file:
-        while simulated_storage_used < MAX_SIMULATED_STORAGE:
-            
+        while simulated_storage_used < MAX_STORAGE_BYTES and not stop_event.is_set():
             try:
                 sequence_num, raw_chunk = audio_queue.get(timeout=0.05)
             except queue.Empty:
                 continue
-            
+
             try:
+                percent_used = storage_percent(simulated_storage_used, MAX_STORAGE_BYTES)
                 # determine the quantization bits
-                if simulated_storage_used >= 80:
+                if percent_used >= 80:
                     quantization_bits = 8
-                elif simulated_storage_used >= 50:
+                elif percent_used >= 50:
                     quantization_bits = 16
                 else:
                     quantization_bits = 32
@@ -227,6 +231,10 @@ def consumer_storage():
                 )
                 # update the checksum for the created Record
                 record.checksum = record.compute_checksum()
+                encoded_bytes = record.to_bytes()
+                # prevent writing if it exceeds max storage bytes
+                if simulated_storage_used + len(encoded_bytes) > MAX_STORAGE_BYTES:
+                    break
 
                 # write record to file
                 file.write(record.to_bytes())
@@ -241,9 +249,9 @@ def consumer_storage():
                     time_count = time.perf_counter_ns() # update when the last sync happened
 
                 # maintaining the default concept of 1 being 2 bytes
-                simulated_storage_used += (quantization_bits / 16) * CHUNK_SIZE
+                simulated_storage_used += len(encoded_bytes)
                 print(f"Stored record. Record: {record}. "
-                      f"Storage: {simulated_storage_used}/{MAX_SIMULATED_STORAGE}")
+                      f"Storage: {simulated_storage_used}/{MAX_STORAGE_BYTES}", flush=True)
 
                 # -------------------------
 
@@ -338,6 +346,7 @@ def validate_contents(filename):
 
 
 if __name__ == "__main__":
+    stats = Stats(policy=POLICY)
     records = validate_contents(FILENAME)
 
     if records != []:
@@ -356,18 +365,20 @@ if __name__ == "__main__":
 
     # save current time
     time_count = time.perf_counter_ns()
-
-    # initialize stats
-    stats = Stats(
-        policy=POLICY,
-        recovered_chunks=len(records),
-        start_ns=time_count
-    )
+    
+    stats.recovered_chunks = len(records)
+    stats.start_ns = time_count
 
     prod_thread.start()
     cons_thread.start()
 
     prod_thread.join()
     cons_thread.join()
+    
+    stats.end_ns = time.perf_counter_ns()
+    stats.file_size_bytes = os.path.getsize(FILENAME) if os.path.isfile(FILENAME) else 0
+    
+    print("\nSimulation Summary:")
+    print(stats.summary())
 
-    print("Storage Full Simulation Finished.")
+    print("\nStorage Full Simulation Finished.")
