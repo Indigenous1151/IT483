@@ -1,0 +1,204 @@
+===== Policy: every_chunk =====
+Recovered 14 from audio_every_chunk.bin
+Contents of audio_every_chunk.bin
+sequence_num,sample_count,bit_depth,payload,checksum
+0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d
+1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2
+2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928
+3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e
+4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be
+5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6
+6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178
+7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67
+8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec
+9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d
+10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934
+11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816
+12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6
+13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18
+
+-----------------------
+
+Stored record. Record: 0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d. Storage: 81/1024
+Stored record. Record: 1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2. Storage: 162/1024
+Stored record. Record: 2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928. Storage: 243/1024
+Stored record. Record: 3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e. Storage: 324/1024
+Stored record. Record: 4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be. Storage: 405/1024
+Stored record. Record: 5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6. Storage: 486/1024
+Stored record. Record: 6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178. Storage: 567/1024
+Stored record. Record: 7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67. Storage: 628/1024
+Stored record. Record: 8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec. Storage: 689/1024
+Stored record. Record: 9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d. Storage: 750/1024
+Stored record. Record: 10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934. Storage: 811/1024
+Stored record. Record: 11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816. Storage: 872/1024
+Stored record. Record: 12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6. Storage: 923/1024
+Stored record. Record: 13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18. Storage: 974/1024
+
+Simulation Summary:
+Policy: every_chunk
+Recovered Chunks (prior run): 14
+Chunks Written:               14
+Sync Count:                   16
+Total Sync Time (ms):         40.253
+Average Sync Time (ms):       2.516
+Recording Duration (s):       1.205
+Chunks per Second:            11.620
+File Size (bytes):            974
+
+
+Storage Full Simulation Finished.
+Completed policy: every_chunk
+
+===== Policy: every_n =====
+Recovered 14 from audio_every_n.bin
+Contents of audio_every_n.bin
+sequence_num,sample_count,bit_depth,payload,checksum
+0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d
+1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2
+2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928
+3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e
+4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be
+5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6
+6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178
+7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67
+8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec
+9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d
+10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934
+11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816
+12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6
+13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18
+
+-----------------------
+
+Stored record. Record: 0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d. Storage: 81/1024
+Stored record. Record: 1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2. Storage: 162/1024
+Stored record. Record: 2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928. Storage: 243/1024
+Stored record. Record: 3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e. Storage: 324/1024
+Stored record. Record: 4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be. Storage: 405/1024
+Stored record. Record: 5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6. Storage: 486/1024
+Stored record. Record: 6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178. Storage: 567/1024
+Stored record. Record: 7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67. Storage: 628/1024
+Stored record. Record: 8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec. Storage: 689/1024
+Stored record. Record: 9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d. Storage: 750/1024
+Stored record. Record: 10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934. Storage: 811/1024
+Stored record. Record: 11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816. Storage: 872/1024
+Stored record. Record: 12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6. Storage: 923/1024
+Stored record. Record: 13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18. Storage: 974/1024
+
+Simulation Summary:
+Policy: every_n
+Recovered Chunks (prior run): 14
+Chunks Written:               14
+Sync Count:                   3
+Total Sync Time (ms):         350.386
+Average Sync Time (ms):       116.795
+Recording Duration (s):       1.366
+Chunks per Second:            10.249
+File Size (bytes):            974
+
+
+Storage Full Simulation Finished.
+Completed policy: every_n
+
+===== Policy: time_based =====
+Recovered 14 from audio_time_based.bin
+Contents of audio_time_based.bin
+sequence_num,sample_count,bit_depth,payload,checksum
+0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d
+1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2
+2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928
+3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e
+4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be
+5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6
+6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178
+7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67
+8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec
+9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d
+10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934
+11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816
+12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6
+13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18
+
+-----------------------
+
+Stored record. Record: 0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d. Storage: 81/1024
+Stored record. Record: 1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2. Storage: 162/1024
+Stored record. Record: 2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928. Storage: 243/1024
+Stored record. Record: 3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e. Storage: 324/1024
+Stored record. Record: 4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be. Storage: 405/1024
+Stored record. Record: 5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6. Storage: 486/1024
+Stored record. Record: 6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178. Storage: 567/1024
+Stored record. Record: 7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67. Storage: 628/1024
+Stored record. Record: 8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec. Storage: 689/1024
+Stored record. Record: 9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d. Storage: 750/1024
+Stored record. Record: 10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934. Storage: 811/1024
+Stored record. Record: 11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816. Storage: 872/1024
+Stored record. Record: 12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6. Storage: 923/1024
+Stored record. Record: 13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18. Storage: 974/1024
+
+Simulation Summary:
+Policy: time_based
+Recovered Chunks (prior run): 14
+Chunks Written:               14
+Sync Count:                   3
+Total Sync Time (ms):         369.901
+Average Sync Time (ms):       123.300
+Recording Duration (s):       1.449
+Chunks per Second:            9.665
+File Size (bytes):            974
+
+
+Storage Full Simulation Finished.
+Completed policy: time_based
+
+===== Policy: shutdown_only =====
+Recovered 14 from audio_shutdown_only.bin
+Contents of audio_shutdown_only.bin
+sequence_num,sample_count,bit_depth,payload,checksum
+0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d
+1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2
+2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928
+3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e
+4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be
+5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6
+6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178
+7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67
+8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec
+9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d
+10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934
+11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816
+12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6
+13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18
+
+-----------------------
+
+Stored record. Record: 0,10,32,b'\xb3\x0c\x10?\xa4\x01W\xbfV\xb7>?\xf9\x0c\x17>\xd4\xbb\x9a\xbc,a<\xbfw\xea\x18?]?\xba\xbe\xee\xc9\x16?*\xb60?',d8348f1e0afc120da5bfd3990648628b0d3c98284969faebdede0d2d1af60a9d. Storage: 81/1024
+Stored record. Record: 1,10,32,b'\xdc\x1fN\xbf\xee\x1e}?\x13\xbe\x1f\xbf\xf2\x10\xf1\xbehH\x11>\xd9\xf3\xce>\xc04\xfc\xbeZ\xd1B?L\x97x?-\xe9\x0b\xbf',011ddcc0e84cbd136052a1019b5a0ef2404dab1d2fb32bae7265533686228fe2. Storage: 162/1024
+Stored record. Record: 2,10,32,b'\xe9r\x86>\x9f\xabY\xbf\x03\xf7s\xbf\xf8\x82\x19\xbf\xda\x9fp?5$\x01:\xe4\x9c \xbfn=\xb3> \x90+\xbf\xff!E?',47b5218af482aec082d64d336c5335dd1d26c1f70bed0d18034f129bde0c7928. Storage: 243/1024
+Stored record. Record: 3,10,32,b'\x10\x0c\xd4=p\xecX?^G\x8a\xbd{\x03\xc9>ZT\xfa>-\x97=\xbf\xaf0\x9d>\x0c\x90\x8f\xbd\x8e\xc9\xfe>\x13\x9d\x03\xbf',325a01b56529ebd7a01ba253a4eac5cd3fd63c69c01aab51ab7c354cfc76246e. Storage: 324/1024
+Stored record. Record: 4,10,32,b'\xc9\xf8F\xbf\xe1r/?\x8b\xae\t\xbf2\x1d\x17?\x9dV\xe7\xbeW"E;\xe6[j\xbfS\xcf\x0b?T\xf8\xbd\xbd\xb9(H\xbf',1fb849b6d200d59ce355452a8435eb315030a241935eeeac9c9f82056f56d9be. Storage: 405/1024
+Stored record. Record: 5,10,32,b'\x87\xc9S?\xf8-\xda=-$(\xbf\x02k\x0b\xbf\x0eZ\x17?\x87\xb6\x15\xbf\xa7M\x13=\x8cp\xdf\xbe\x08(\x02\xbf\xc029>',e97112a5ffca861e680a2b22f8477342989bd0842b9ff18589655fcd787fe8f6. Storage: 486/1024
+Stored record. Record: 6,10,32,b'\x87\x018?\xac<I?\x8e-}?\x01Gm\xbf\x00\xfbA=)\x1d\n?J\xf6\x0b>0\xcd6?\xff\xefv?\x94\xa4b\xbf',9a1aa6eaaa0c545d7248634d45f1a18865b824fecd77dbdc392363cab41c0178. Storage: 567/1024
+Stored record. Record: 7,10,16,b'C\xe1a\xcf\x0eE\x16\x8dS\x1e\xfdk\x89\x8b~\xf5\x91IQl',e5025f24c941c227e082d06e89493545c1a064706e561cdabd26db53f058fe67. Storage: 628/1024
+Stored record. Record: 8,10,16,b"\xdf'[\xc0\x18\x94\xcfP\x90\x99r\xfd^\xa4\xb2N\x92\xe7\xd1\xf3",e8a9e81bc896e7b67e979d9ce14ea27e9bdc3e4bf600d2f3a150aa23cc961cec. Storage: 689/1024
+Stored record. Record: 9,10,16,b'\x1f\x8a\xa1y\x7f\x1dE\x9bt\xce\xc2\xf3\x1e~a[\x9e\x14\xadw',bbc0044953e5bcea8693b3b9fbb665291f0ec1df6970e1fd3743bfbddd406e8d. Storage: 750/1024
+Stored record. Record: 10,10,16,b'\x08\x1a\xa8\xb9\x9e\x880\xfd\xce[\xef\xe3\xe5\xf3\x8f\xd8\xf7\x1cn\xd9',341eff55357bfa7653eeea1f351181e05f2eeb45e7813111ef7ff88b2221b934. Storage: 811/1024
+Stored record. Record: 11,10,16,b'3J\n\xf2\x9d\xda\x02\x82\xc28@l\xb9L&\xfe\xfe<\x99\xc7',84079598726097562b768f4d07b9f523b9610af17dfcd7cc256d6f476add2816. Storage: 872/1024
+Stored record. Record: 12,10,8,b'\xe78\xd6\x8b\xe0\xc5@\xd3V-',fea80e2ee136f3b40c4eb85923a7af2486f17d3a63cf4dbbdc79c6e400fd23e6. Storage: 923/1024
+Stored record. Record: 13,10,8,b'-\x88E:\x19\x12\xcb\x03w:',03fb978d79e64d14752f58bac2d4008b38bc6f0767e1a0e3fdf89a6bc6618f18. Storage: 974/1024
+
+Simulation Summary:
+Policy: shutdown_only
+Recovered Chunks (prior run): 14
+Chunks Written:               14
+Sync Count:                   2
+Total Sync Time (ms):         4.913
+Average Sync Time (ms):       2.457
+Recording Duration (s):       1.181
+Chunks per Second:            11.854
+File Size (bytes):            974
+
+
+Storage Full Simulation Finished.
+Completed policy: shutdown_only
+

@@ -352,7 +352,7 @@ if __name__ == "__main__":
     if records != []:
         # show what records were read from the file
         print(f"Contents of {FILENAME}")
-        print("sequence_num,sample_count,bit_depth,payload_checksum")
+        print("sequence_num,sample_count,bit_depth,payload,checksum")
         for record in records:
             print(record)
     else:
