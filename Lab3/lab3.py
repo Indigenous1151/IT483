@@ -3,6 +3,7 @@
 import threading
 import random
 import struct
+import queue
 import time
 import os
 import sys
@@ -14,16 +15,16 @@ from typing import Optional
 VALID_POLICIES = ["every_chunk", "every_n", "time_based", "shutdown_only"]
 
 # validate the program was executed with the proper command line args
-if len(sys.argv) < 3:
-    print(f"Usage: python3 {sys.argv[0]} <read/write filename> [every_chunk|every_n|time_based|shutdown_only]")
+if len(sys.argv) < 2:
+    print(f"Usage: python3 {sys.argv[0]} [every_chunk|every_n|time_based|shutdown_only]")
     sys.exit(1)
 # check that the policy entered is valid
-elif sys.argv[2] not in VALID_POLICIES:
+elif sys.argv[1] not in VALID_POLICIES:
     print(f"ERROR: Invalid policy. Valid policies are: {VALID_POLICIES}")
     sys.exit(1)
 else:
-    FILENAME = sys.argv[1]
-    POLICY   = sys.argv[2]
+    POLICY   = sys.argv[1]
+    FILENAME = f"audio_{POLICY}.bin" # saving as binary file
 
 
 BUFFER_SIZE = 5
@@ -33,19 +34,12 @@ MAX_SIMULATED_STORAGE = 100  # Simulated disk blocks
 pending_chunks = []
 time_count = time.perf_counter_ns()
 
-# Shared Buffer Structure
-shared_buffer = [None] * BUFFER_SIZE
-count = 0
-head = 0
-tail = 0
-
-# Synchronization Primitives (Python Condition encapsulates a lock and condition variables)
-condition = threading.Condition()
+audio_queue = queue.Queue(maxsize=BUFFER_SIZE)
+stop_event = threading.Event()
 
 # Global State managed by OS Simulation
 simulated_storage_used = 0
 quantization_bits = 32  # Default precision
-
 
 @dataclass
 class Record:
@@ -94,6 +88,52 @@ class Record:
         return f"{self.sequence_num},{self.sample_count},{self.bit_depth},{self.payload},{self.checksum}"
 
 
+@dataclass
+class Stats:
+    policy: str
+    recovered_chunks: int = 0
+    chunks_written: int = 0
+    sync_count: int = 0
+    total_sync_ns: int = 0
+    file_size_bytes: int = 0
+    start_ns: int = 0
+    end_ns: int = 0
+    
+    def record_sync(self, sync_ns: int):
+        self.sync_count += 1
+        self.total_sync_ns += sync_ns
+        
+    @property
+    def total_sync_ms(self) -> float:
+        return self.total_sync_ns / 1_000_000
+    
+    @property
+    def avg_sync_ms(self) -> float:
+        if self.sync_count == 0:
+            return 0.0
+        return self.total_sync_ms / self.sync_count
+    
+    @property
+    def recording_seconds(self) -> float:
+        return (self.end_ns - self.start_ns) / 1_000_000_000
+    
+    @property
+    def chunks_per_second(self) -> float:
+        return self.chunks_written / self.recording_seconds if self.recording_seconds > 0 else 0.0
+    
+    def summary(self):
+        return (
+            f"Policy: {self.policy}\n"
+            f"Recovered Chunks (prior run): {self.recovered_chunks}\n"
+            f"Chunks Written:               {self.chunks_written}\n"
+            f"Sync Count:                   {self.sync_count}\n"
+            f"Total Sync Time (ms):         {self.total_sync_ms:.3f}\n"
+            f"Average Sync Time (ms):       {self.avg_sync_ms:.3f}\n"
+            f"Recording Duration (s):       {self.recording_seconds:.3f}\n"
+            f"Chunks per Second:            {self.chunks_per_second:.3f}"
+            f"File Size (bytes):            {self.file_size_bytes}\n"
+        )
+
 def sync_file(file_obj) -> int:
     """This function takes any writes in the process' buffers and moves the data
     to disk. Returns time taken in ns."""
@@ -141,49 +181,32 @@ def encode_chunk(samples, bits) -> bytes:
 
 
 def producer_mic():
-    global count, tail, simulated_storage_used
-
     rng = random.Random(999)
     # Generate mock 32-bit float audio samples in a chunk
     chunk_num = 0
 
-    while True:
-        with condition:
-            while count == BUFFER_SIZE:
-                condition.wait()
-
-            chunk = [rng.random() for _ in range(CHUNK_SIZE)]
-
-            shared_buffer[tail] = (chunk_num, chunk) # type: ignore
-            tail = (tail + 1) % BUFFER_SIZE
-            count += 1
-
-            condition.notify()
+    while not stop_event.is_set():
+        chunk = [rng.uniform(-1.0, 1.0) for _ in range(CHUNK_SIZE)]
+        try:
+            audio_queue.put((chunk_num, chunk), timeout=0.05)
+            chunk_num += 1
+        except queue.Full:
+            pass
 
         time.sleep(0.05)  # Simulate audio sampling rate interval
 
 
 def consumer_storage():
-    global count, head, simulated_storage_used, quantization_bits, time_count
-    with open("storage.txt", "wb") as file:
+    global simulated_storage_used, quantization_bits, time_count
+    with open(FILENAME, "wb") as file:
         while simulated_storage_used < MAX_SIMULATED_STORAGE:
-            with condition:
-                while count == 0 and simulated_storage_used < MAX_SIMULATED_STORAGE:
-                    condition.wait()
-
-                if count == 0 and simulated_storage_used >= MAX_SIMULATED_STORAGE:
-                    break
-
-                # Fetch sample from buffer
-                if shared_buffer[head] != None:
-                    sequence_num, raw_chunk = shared_buffer[head] # type: ignore
-                else:
-                    print("shared_buffer read None")
-                    break
-
-                head = (head + 1) % BUFFER_SIZE
-                count -= 1
-
+            
+            try:
+                sequence_num, raw_chunk = audio_queue.get(timeout=0.05)
+            except queue.Empty:
+                continue
+            
+            try:
                 # determine the quantization bits
                 if simulated_storage_used >= 80:
                     quantization_bits = 8
@@ -207,13 +230,13 @@ def consumer_storage():
 
                 # write record to file
                 file.write(record.to_bytes())
-
+                stats.chunks_written += 1
                 pending_chunks.append(record)
 
                 seconds_since_sync = (time.perf_counter_ns() - time_count) / 1_000_000_000
                 # after sample has been created, now we determine if file sync needed
-                if sync_is_due(POLICY, pending_chunks, seconds_since_sync):
-                    sync_file(file)
+                if sync_is_due(POLICY, len(pending_chunks), seconds_since_sync):
+                    stats.record_sync(sync_file(file))
                     pending_chunks.clear()
                     time_count = time.perf_counter_ns() # update when the last sync happened
 
@@ -224,19 +247,92 @@ def consumer_storage():
 
                 # -------------------------
 
-                condition.notify()
+            finally:
+                audio_queue.task_done()
 
             time.sleep(0.08)  # Simulate storage I/O delay
 
+        stop_event.set() # signal producer to stop
 
-# TODO: finish this function
+        # empty the queue
+        while not audio_queue.empty():
+            try:
+                audio_queue.get_nowait()
+                audio_queue.task_done()
+            except queue.Empty:
+                break
+        stats.record_sync(sync_file(file))  # final sync before closing
+
+
 def validate_contents(filename):
     "Reads the records in the byte file and truncates invalid record"
+    global time_count
     recovered_records = []
     last_valid_position = 0
     if os.path.isfile("./"+filename):
         with open(filename, "rb+") as file:
-            pass
+            while True:
+                record_start = file.tell()
+
+                # read the 9 byte header
+                header = file.read(9)
+
+                # check if at the end of file
+                if not header:
+                    break
+
+                # incomplete header
+                if len(header) != 9:
+                    break
+
+                sequence_num, sample_count, bit_depth = struct.unpack(
+                    '<IIB', header
+                )
+
+                # validate the header
+                if bit_depth not in (8, 16, 32):
+                    break
+
+                if sample_count == 0 or sample_count > 10:
+                    break
+
+                payload_size = sample_count * (bit_depth // 8)
+
+                payload = file.read(payload_size)
+
+                # incomplete payload
+                if len(payload) != payload_size:
+                    break
+
+                checksum = file.read(32)
+
+                # incomplete checksum
+                if len(checksum) != 32:
+                    break
+
+                # build record
+                record = Record(
+                    sequence_num=sequence_num,
+                    sample_count=sample_count,
+                    bit_depth=bit_depth,
+                    payload=payload,
+                    checksum=checksum.hex()
+                )
+
+                # validate checksum
+                if not record.is_valid():
+                    break
+
+                recovered_records.append(record)
+
+                last_valid_position = file.tell()
+
+            # remove invalid remainder of file
+            file.truncate(last_valid_position)
+            stats.record_sync(sync_file(file))
+            time_count = time.perf_counter_ns()
+
+    print(f"Recovered {len(recovered_records)} from {FILENAME}")
 
     return recovered_records
 
@@ -257,6 +353,16 @@ if __name__ == "__main__":
 
     prod_thread = threading.Thread(target=producer_mic)
     cons_thread = threading.Thread(target=consumer_storage)
+
+    # save current time
+    time_count = time.perf_counter_ns()
+
+    # initialize stats
+    stats = Stats(
+        policy=POLICY,
+        recovered_chunks=len(records),
+        start_ns=time_count
+    )
 
     prod_thread.start()
     cons_thread.start()
